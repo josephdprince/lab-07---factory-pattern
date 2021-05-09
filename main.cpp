@@ -8,11 +8,10 @@ int main(int argc, char** argv) {
 	Factory obj;
 	Base* tree = obj.parse(argv, argc);
 	if (tree == nullptr) {
-		cout << "Error" << endl;
+		cout << "Error: Undefined Input" << endl;
 	}
 	else { 
-		cout << tree->evaluate() << endl;
-		cout << tree->stringify() << endl;
+		cout << tree->stringify() << " = " << tree->evaluate() << endl;
 	}
 
 return 0;
