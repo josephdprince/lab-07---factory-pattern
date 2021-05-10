@@ -14,5 +14,7 @@ int main(int argc, char** argv) {
 		cout << tree->stringify() << " = " << tree->evaluate() << endl;
 	}
 
+	delete tree;
+
 return 0;
 }

@@ -11,7 +11,12 @@ class Add : public Base {
 	Add(Base* value1, Base* value2) : Base() {
 		this->value1 = value1;
 		this->value2 = value2;	
-}
+	}
+	
+	virtual ~Add() {
+		delete value1;
+            	delete value2;
+	}
 	
 	virtual double evaluate() { return value1->evaluate() + value2->evaluate(); }
 	virtual std::string stringify() { return "(" + value1->stringify() + "+" + value2->stringify() + ")"; }
