@@ -8,7 +8,7 @@
 #include "Factory.hpp"
 #include <cstring>
 //FACTORY TESTS
-TEST(ParseTest, EmptyInput) {
+TEST(InvalidInputTest, EmptyInput) {
     Factory obj;
     string s("./test");
     char* arr[1];
@@ -16,7 +16,7 @@ TEST(ParseTest, EmptyInput) {
     EXPECT_EQ(obj.parse(arr, 1), nullptr);   
 }
 
-TEST(ParseTest, MultipleInputs) {
+TEST(InvalidInputTest, MultipleInputs) {
     Factory obj;
     string s("./test");
     string s2("2*9");
@@ -28,10 +28,30 @@ TEST(ParseTest, MultipleInputs) {
     EXPECT_EQ(obj.parse(arr, 3), nullptr);
 }
 
-TEST(ParseTest, InvalidCharInput) {
+TEST(InvalidInputTest, InvalidCharInput) {
     Factory obj;
     string s("./test");
     string s2("2//9");
+    char* arr[2];
+    arr[0] = &s[0];
+    arr[1] = &s2[0];
+    EXPECT_EQ(obj.parse(arr,2), nullptr);
+}
+
+TEST(InvalidInputTest, SpacesAndParenthesis) {
+    Factory obj;
+    string s("./test");
+    string s2("2 + 7 / 5");
+    char* arr[2];
+    arr[0] = &s[0];
+    arr[1] = &s2[0];
+    EXPECT_EQ(obj.parse(arr,2), nullptr);
+}
+
+TEST(InvalidInputTest, OnlyOperation) {
+    Factory obj;
+    string s("./test");
+    string s2("+");
     char* arr[2];
     arr[0] = &s[0];
     arr[1] = &s2[0];
@@ -58,6 +78,17 @@ TEST(ParseTest, MultiOpInput) {
     arr[1] = &s2[0];
     EXPECT_DOUBLE_EQ(obj.parse(arr,2)->evaluate(), 22);
     EXPECT_EQ(obj.parse(arr, 2)->stringify(), "(((6+5)*8)/4)");
+}
+
+TEST(ParseTest, StartNeg) {
+    Factory obj;
+    string s("./test");
+    string s2("-32.7+16**2/3");
+    char* arr[2];
+    arr[0] = &s[0];
+    arr[1] = &s2[0];
+    EXPECT_DOUBLE_EQ(obj.parse(arr,2)->evaluate(), 92.9633333333333367);
+    EXPECT_EQ(obj.parse(arr, 2)->stringify(), "(((-32.7+16)**2)/3)");
 }
 
 //BASE TESTS
