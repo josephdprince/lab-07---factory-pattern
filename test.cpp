@@ -5,12 +5,60 @@
 #include "Mult.hpp"
 #include "Div.hpp"
 #include "Pow.hpp"
+#include "Factory.hpp"
+#include <cstring>
 //FACTORY TESTS
+TEST(ParseTest, EmptyInput) {
+    Factory obj;
+    string s("./test");
+    char* arr[1];
+    arr[0] = &s[0];
+    EXPECT_EQ(obj.parse(arr, 1), nullptr);   
+}
 
+TEST(ParseTest, MultipleInputs) {
+    Factory obj;
+    string s("./test");
+    string s2("2*9");
+    string s3("7");
+    char* arr[3];
+    arr[0] = &s[0];
+    arr[1] = &s2[0];
+    arr[2] = &s3[0];
+    EXPECT_EQ(obj.parse(arr, 3), nullptr);
+}
 
+TEST(ParseTest, InvalidCharInput) {
+    Factory obj;
+    string s("./test");
+    string s2("2//9");
+    char* arr[2];
+    arr[0] = &s[0];
+    arr[1] = &s2[0];
+    EXPECT_EQ(obj.parse(arr,2), nullptr);
+}
 
+TEST(ParseTest, SingleNumInput) {
+    Factory obj;
+    string s("./test");
+    string s2("3");
+    char* arr[2];
+    arr[0] = &s[0];
+    arr[1] = &s2[0];
+    EXPECT_DOUBLE_EQ(obj.parse(arr,2)->evaluate(), 3);
+    EXPECT_EQ(obj.parse(arr,2)->stringify(), "3");
+}
 
-
+TEST(ParseTest, MultiOpInput) {
+    Factory obj;
+    string s("./test");
+    string s2("6+5*8/4");
+    char* arr[2];
+    arr[0] = &s[0];
+    arr[1] = &s2[0];
+    EXPECT_DOUBLE_EQ(obj.parse(arr,2)->evaluate(), 22);
+    EXPECT_EQ(obj.parse(arr, 2)->stringify(), "(((6+5)*8)/4)");
+}
 
 //BASE TESTS
 TEST(MultTest, MultEvaluateNonZero) {
@@ -21,7 +69,7 @@ TEST(MultTest, MultEvaluateNonZero) {
     EXPECT_EQ(test->stringify(), "(2*3)");
 }
 
-TEST(MultTestNeg, MultEvaluatePosNeg) {
+TEST(MultTest, MultEvaluatePosNeg) {
     Op* val1 = new Op(-5.7);
     Op* val2 = new Op(3.2);
     Mult* test = new Mult(val1, val2);
@@ -29,7 +77,7 @@ TEST(MultTestNeg, MultEvaluatePosNeg) {
     EXPECT_EQ(test->stringify(), "(-5.7*3.2)");
 }
 
-TEST(MultTestOp, MultEvaluateOpInput) {
+TEST(MultTest, MultEvaluateOpInput) {
     Op* val1 = new Op(-4);
     Op* val2 = new Op(6);
     Mult* op1 = new Mult(val1, val2);
@@ -46,7 +94,7 @@ TEST(DivTest, DivEvaluateNonZero) {
     EXPECT_EQ(test->stringify(), "(6/3)");
 }
 
-TEST(DivTestNeg, DivEvaluatePosNeg) {
+TEST(DivTest, DivEvaluatePosNeg) {
     Op* val1 = new Op(-24.2);
     Op* val2 = new Op(2.0);
     Div* test = new Div(val1, val2);
@@ -54,7 +102,7 @@ TEST(DivTestNeg, DivEvaluatePosNeg) {
     EXPECT_EQ(test->stringify(), "(-24.2/2)");
 }
 
-TEST(DivTestOp, DivEvaluateOpInput) {
+TEST(DivTest, DivEvaluateOpInput) {
     Op* val1 = new Op(-24);
     Op* val2 = new Op(6);
     Div* op1 = new Div(val1, val2);
