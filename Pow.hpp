@@ -14,6 +14,11 @@ class Pow : public Base {
 		this->val2 = val2;
 	}
 
+	virtual ~Pow() {
+		delete val1;
+		delete val2;
+	}
+
 	virtual double evaluate() { return pow(val1->evaluate(), val2->evaluate()); }
 	virtual std::string stringify() { return "(" + val1->stringify() + "**" + val2->stringify() + ")";}
 

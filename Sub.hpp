@@ -13,6 +13,11 @@ class Sub : public Base {
 		this->val2 = val2;
 	}
 
+	virtual ~Sub() {
+	        delete val1;
+	   	delete val2;
+	}
+
 	virtual double evaluate() { return val1->evaluate() - val2->evaluate(); }
 	virtual std::string stringify() { return "(" + val1->stringify() + "-" + val2->stringify() + ")"; }
 };
