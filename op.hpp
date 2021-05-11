@@ -11,9 +11,9 @@ class Op : public Base {
     public:
         Op(double value) : Base() { this->value = value; }
         virtual double evaluate() { return value; }
-        virtual std::string stringify() {//return std::to_string(value);}
+        virtual std::string stringify() {
 		std::ostringstream out;
-		out << std::setprecision(3) << value;
+		out << std::setprecision(6) << value;
 		return out.str();
 	}
 }; 

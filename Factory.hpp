@@ -46,7 +46,7 @@ class Factory {
 					}
 				}
 
-				//if our cuttent index is an operation
+				//if our current index is an operation
 				if((cur == '+') || (cur == '/') || (cur == '-')) {
 					//if the next index after an operation is not a digit
 					if(isdigit(next) == 0)
@@ -103,9 +103,11 @@ class Factory {
 				while((isdigit(exp.at(j)) != 0) || (exp.at(j) == '.')) {
 					//if the index is a decimal point then we need to operate on rhs
 					if (exp.at(j) == '.') {
-						j++;
-						rhs += ((exp.at(j) - 48) / factor);
-						factor *= 10; 	
+						if(isdigit(exp.at(j+1)) != 0) {
+							j++;
+							rhs += ((exp.at(j) - 48) / factor);
+							factor *= 10; 	
+						}
 					}
 					//index is a digit, not a decimal point
 					else {
